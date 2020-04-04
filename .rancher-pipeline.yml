@@ -8,7 +8,7 @@ stages:
             ln -s `pwd` /go/src/github.com/dualwave/nats
             cd /go/src/github.com/dualwave/nats
             go build -o bin/pub cmd/pub/main.go
-            go build -o bin/worker cmd/worker/main.go
+            go build -o bin/worker cmd/sub/main.go
   - name: Publish
     steps:
       - publishImageConfig:
