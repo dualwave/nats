@@ -1,0 +1,90 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: example-nats-server
+spec:
+  selector:
+    app: example-nats-server
+  ports:
+    - protocol: TCP
+      port: 4222
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-nats-server
+  labels:
+    app: example-nats-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: example-nats-server
+  template:
+    metadata:
+      labels:
+        app: example-nats-server
+    spec:
+      containers:
+        - name: example-nats-server
+          image: nats:latest
+          ports:
+            - containerPort: 4222
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-nats-pub
+  labels:
+    app: example-nats-pub
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: example-nats-pub
+  template:
+    metadata:
+      labels:
+        app: example-nats-pub
+    spec:
+      imagePullSecrets:
+        - name: pipeline-docker-registry
+      containers:
+        - name: example-nats-pub
+          image: ${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
+          env:
+            - name: SERVERURL
+              value: example-nats-server
+            - name: SUBJECT
+              value: TEST1234
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-nats-sub
+  labels:
+    app: example-nats-sub
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: example-nats-sub
+  template:
+    metadata:
+      labels:
+        app: example-nats-sub
+    spec:
+      imagePullSecrets:
+        - name: pipeline-docker-registry
+      containers:
+        - name: example-nats-sub
+          image: ${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
+          env:
+            - name: SERVERURL
+              value: example-nats-server
+            - name: SUBJECT
+              value: TEST1234
+            - name: QUEUE
+              value: MAINGROUP

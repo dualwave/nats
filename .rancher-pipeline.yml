@@ -1,0 +1,25 @@
+stages:
+  - name: Build
+    steps:
+      - runScriptConfig:
+          image: golang:1.11
+          shellScript: |-
+            mkdir -p /go/src/github.com/dualwave
+            ln -s `pwd` /go/src/github.com/dualwave/nats
+            cd /go/src/github.com/dualwave/nats/cmd/pub
+            go build -o bin/nats-pub
+            cd /go/src/github.com/dualwave/nats/cmd/worker
+            go build -o bin/nats-worker
+  - name: Publish
+    steps:
+      - publishImageConfig:
+          dockerfilePath: ./Dockerfile
+          buildContext: .
+          tag: example-helloserver:${CICD_EXECUTION_SEQUENCE}
+          pushRemote: true
+          registry: registry.dualwave.dev
+  - name: Deploy
+    steps:
+      - applyYamlConfig:
+          path: ./deployment.yaml
+notification: {}
