@@ -7,12 +7,9 @@ stages:
             mkdir -p /output
             mkdir -p /go/src/github.com/dualwave
             ln -s `pwd` /go/src/github.com/dualwave/nats
-            cd /go/src/github.com/dualwave/nats/cmd/pub
-            go build -o pub
-            mv ./pub /output/
-#            cd /go/src/github.com/dualwave/nats/cmd/worker
-#            go build -o worker
-#            mv ./worker /output/
+            go build cmd/pub/main.go -o bin/pub
+            go build cmd/worker/main.go -o bin/pub
+
 
   - name: Publish
     steps:
@@ -22,12 +19,12 @@ stages:
           tag: example-nats-pub:${CICD_EXECUTION_SEQUENCE}
           pushRemote: true
           registry: registry.dualwave.dev
-#      - publishImageConfig:
-#          dockerfilePath: ./WorkerDocker
-#          buildContext: .
-#          tag: example-nats-sub:${CICD_EXECUTION_SEQUENCE}
-#          pushRemote: true
-#          registry: registry.dualwave.dev
+      - publishImageConfig:
+          dockerfilePath: ./WorkerDocker
+          buildContext: .
+          tag: example-nats-sub:${CICD_EXECUTION_SEQUENCE}
+          pushRemote: true
+          registry: registry.dualwave.dev
   - name: Deploy
     steps:
       - applyYamlConfig:
