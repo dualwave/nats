@@ -10,6 +10,8 @@ stages:
             go build -o bin/nats-pub
             cd /go/src/github.com/dualwave/nats/cmd/worker
             go build -o bin/nats-worker
+            ls -lh
+            ls -lh /bin/
   - name: Publish
     steps:
       - publishImageConfig:
