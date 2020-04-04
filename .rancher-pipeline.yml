@@ -4,9 +4,9 @@ stages:
       - runScriptConfig:
           image: golang:1.14
           shellScript: |-
-            mkdir -p /output
             mkdir -p /go/src/github.com/dualwave
             ln -s `pwd` /go/src/github.com/dualwave/nats
+            cd /go/src/github.com/dualwave/nats
             go build -o bin/pub cmd/pub/main.go
             go build -o bin/worker cmd/worker/main.go
   - name: Publish
