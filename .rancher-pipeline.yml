@@ -15,7 +15,7 @@ stages:
       - publishImageConfig:
           dockerfilePath: ./PubDocker
           buildContext: .
-          tag: example-nats-sub:${CICD_EXECUTION_SEQUENCE}
+          tag: example-nats-pub:${CICD_EXECUTION_SEQUENCE}
           pushRemote: true
           registry: registry.dualwave.dev
       - publishImageConfig:
