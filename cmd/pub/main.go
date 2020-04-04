@@ -26,11 +26,10 @@ import (
 // nats-pub -s demo.nats.io <subject> <msg>
 // nats-pub -s demo.nats.io:4443 <subject> <msg> (TLS version)
 
-var TI int
 
 func publishBuilder() []byte {
 	hostname, _ := os.Hostname()
-	send := fmt.Sprintf("Hostname: %v\tMessage: %v", hostname, TI)
+	send := fmt.Sprintf("Hostname: %v\tMessage: %v", hostname, time.Now().String())
 	return []byte(send)
 }
 
@@ -60,7 +59,6 @@ func main() {
 			} else {
 				nc.Publish(string(subj), msg)
 			}
-			TI++
 			nc.Flush()
 
 			if err := nc.LastError(); err != nil {
