@@ -9,7 +9,7 @@ stages:
             cd /go/src/github.com/dualwave/nats
             go build -o bin/pub cmd/pub/main.go
             go build -o bin/worker cmd/sub/main.go
-  - name: Publish
+  - name: Publish Pub Image
     steps:
       - publishImageConfig:
           dockerfilePath: ./PubDocker
@@ -17,7 +17,7 @@ stages:
           tag: example-nats-pub:${CICD_EXECUTION_SEQUENCE}
           pushRemote: true
           registry: registry.dualwave.dev
-  - name: Publish
+  - name: Publish Sub Image
     steps:
       - publishImageConfig:
           dockerfilePath: ./SubDocker
