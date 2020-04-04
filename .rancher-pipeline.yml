@@ -13,9 +13,15 @@ stages:
   - name: Publish
     steps:
       - publishImageConfig:
-          dockerfilePath: ./Dockerfile
+          dockerfilePath: ./PubDocker
           buildContext: .
-          tag: example-helloserver:${CICD_EXECUTION_SEQUENCE}
+          tag: example-nats-sub:${CICD_EXECUTION_SEQUENCE}
+          pushRemote: true
+          registry: registry.dualwave.dev
+      - publishImageConfig:
+          dockerfilePath: ./WorkerDocker
+          buildContext: .
+          tag: example-nats-sub:${CICD_EXECUTION_SEQUENCE}
           pushRemote: true
           registry: registry.dualwave.dev
   - name: Deploy
