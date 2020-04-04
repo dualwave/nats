@@ -17,14 +17,16 @@ stages:
           tag: example-nats-pub:${CICD_EXECUTION_SEQUENCE}
           pushRemote: true
           registry: registry.dualwave.dev
+  - name: Publish
+    steps:
       - publishImageConfig:
           dockerfilePath: ./SubDocker
           buildContext: .
           tag: example-nats-sub:${CICD_EXECUTION_SEQUENCE}
           pushRemote: true
           registry: registry.dualwave.dev
-        env:
-          PLUGIN_STORAGE_PATH: /var/lib/docker/2
+#        env:
+#          PLUGIN_STORAGE_PATH: /var/lib/docker/2
   - name: Deploy
     steps:
       - applyYamlConfig:
