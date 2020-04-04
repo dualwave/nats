@@ -15,6 +15,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"github.com/nats-io/nats.go"
 	"log"
 	"os"
@@ -24,6 +25,15 @@ import (
 // NOTE: Can test with demo servers.
 // nats-pub -s demo.nats.io <subject> <msg>
 // nats-pub -s demo.nats.io:4443 <subject> <msg> (TLS version)
+
+var TI int
+
+func publishBuilder() []byte {
+	hostname, _ := os.Hostname()
+	send := fmt.Sprintf("Hostname: %v\tMessage: %v", hostname, TI)
+	TI++
+	return []byte(send)
+}
 
 func main() {
 	var urlss = os.Getenv("SERVERURL")
@@ -40,14 +50,14 @@ func main() {
 	}
 	defer nc.Close()
 
-	subj, msg := os.Getenv("SUBJECT"), []byte(time.Now().String())
-	t := time.NewTicker(5 * time.Second)
+	msg := publishBuilder()
+	t := time.NewTicker(1 * time.Second)
 
 	for {
 		select {
 		case <-t.C:
 			if reply != nil && *reply != "" {
-				nc.PublishRequest(string(subj), *reply, msg)
+				nc.PublishRequest(string(os.Getenv("SUBJECT")), *reply, msg)
 			} else {
 				nc.Publish(string(subj), msg)
 			}

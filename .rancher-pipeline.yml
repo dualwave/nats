@@ -20,7 +20,7 @@ stages:
         env:
           PLUGIN_STORAGE_PATH: /var/lib/docker/1
       - publishImageConfig:
-          dockerfilePath: ./WorkerDocker
+          dockerfilePath: ./SubDocker
           buildContext: .
           tag: example-nats-sub:${CICD_EXECUTION_SEQUENCE}
           pushRemote: true
