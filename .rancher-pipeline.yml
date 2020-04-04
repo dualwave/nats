@@ -7,10 +7,8 @@ stages:
             mkdir -p /output
             mkdir -p /go/src/github.com/dualwave
             ln -s `pwd` /go/src/github.com/dualwave/nats
-            go build cmd/pub/main.go -o bin/pub
-            go build cmd/worker/main.go -o bin/pub
-
-
+            go build -o bin/pub cmd/pub/main.go
+            go build -o bin/worker cmd/worker/main.go
   - name: Publish
     steps:
       - publishImageConfig:
