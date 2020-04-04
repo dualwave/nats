@@ -50,7 +50,7 @@ spec:
         app: example-nats-pub
     spec:
       imagePullSecrets:
-        - name: pipeline-docker-registry
+        - name: dualwave-registry
       containers:
         - name: example-nats-pub
           image: ${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
@@ -77,7 +77,7 @@ spec:
         app: example-nats-sub
     spec:
       imagePullSecrets:
-        - name: pipeline-docker-registry
+        - name: dualwave-registry
       containers:
         - name: example-nats-sub
           image: ${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
