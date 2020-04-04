@@ -53,7 +53,7 @@ spec:
         - name: dualwave-registry
       containers:
         - name: example-nats-pub
-          image: ${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
+          image: example-nats-pub:${CICD_EXECUTION_SEQUENCE}
           env:
             - name: SERVERURL
               value: example-nats-server
@@ -80,7 +80,7 @@ spec:
         - name: dualwave-registry
       containers:
         - name: example-nats-sub
-          image: ${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
+          image: example-nats-sub:${CICD_EXECUTION_SEQUENCE}
           env:
             - name: SERVERURL
               value: example-nats-server
