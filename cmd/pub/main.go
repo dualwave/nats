@@ -49,7 +49,7 @@ func main() {
 		log.Fatal(err)
 	}
 	defer nc.Close()
-
+	subj := os.Getenv("SUBJECT")
 	msg := publishBuilder()
 	t := time.NewTicker(1 * time.Second)
 
@@ -57,7 +57,7 @@ func main() {
 		select {
 		case <-t.C:
 			if reply != nil && *reply != "" {
-				nc.PublishRequest(string(os.Getenv("SUBJECT")), *reply, msg)
+				nc.PublishRequest(string(subj), *reply, msg)
 			} else {
 				nc.Publish(string(subj), msg)
 			}
