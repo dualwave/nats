@@ -17,7 +17,7 @@ metadata:
   labels:
     app: example-nats-server
 spec:
-  replicas: 10
+  replicas: 1
   selector:
     matchLabels:
       app: example-nats-server
@@ -40,7 +40,7 @@ metadata:
   labels:
     app: example-nats-pub
 spec:
-  replicas: 1
+  replicas: 10
   selector:
     matchLabels:
       app: example-nats-pub
